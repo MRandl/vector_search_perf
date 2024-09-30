@@ -5,14 +5,17 @@ import tqdm
 import random
 import diskannpy
 
+from scipy.stats import poisson
+
 def send_loop(connection, vectors, wait):
     BATCH_SIZE = 32
     batches = [vectors[i:i + BATCH_SIZE] for i in range(0, len(vectors), BATCH_SIZE)]
-    
+    waits = poisson.rvs(wait, len(batches))
+
     connection.send((len(batches), len(vectors)))
-    for b in batches:
+    for b, wait_time in zip(batches, waits):
         connection.send((time.time(), b))
-        time.sleep(wait)
+        time.sleep(wait_time)
 
 def process(i):
     time.sleep(random.randint(0, 1000) / 10000)
