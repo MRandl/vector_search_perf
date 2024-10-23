@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 import diskannpy
 
 vecs = np.load("/mnt/nfs/shared/datasets/sift/100M/100M.npy")
